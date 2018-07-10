@@ -20,11 +20,12 @@
 
 <template>
     <div>
-        <!--<logincomponent><slot></slot></logincomponent>-->
+        <!--<signupcomponent>-->
+            <!--<slot></slot>-->
+        <!--</signupcomponent>-->
+        <logincomponent><slot></slot></logincomponent>
         <!--<userdashboard><slot></slot></userdashboard>-->
-        <admindashboard>
-            <slot></slot>
-        </admindashboard>
+        <!--<admindashboard><slot></slot></admindashboard>-->
     </div>
 </template>
 

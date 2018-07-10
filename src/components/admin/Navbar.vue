@@ -2,7 +2,8 @@
     <div>
         <el-row>
             <el-col :span="8">
-                <el-menu class="el-menu" mode="horizontal" @select="handleSelect">
+                <!--@select="handleSelect"-->
+                <el-menu class="el-menu" mode="horizontal">
                     <el-menu-item><span style="font-size:30px;cursor:pointer;" @click="leftNav()">&#9776; Menu</span>
                     </el-menu-item>
                 </el-menu>

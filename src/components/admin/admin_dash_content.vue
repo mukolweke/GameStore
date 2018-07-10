@@ -1,8 +1,7 @@
 <template>
     <div>
-        <navbar><slot></slot></navbar>
-        <el-container>
 
+        <navbar><slot></slot></navbar>
             <el-card class="box-card-outer">
                 <el-row>
                     <input type="text" name="search" class="search" style="height: 30px;" placeholder="Search..">
@@ -10,75 +9,81 @@
                 <hr style="width: 100px;">
                 <br>
                 <el-row>
-                    <el-col :span="6">
+                    <ul>
+                    <li v-for="product in getProducts">
+                    <el-col :span="10">
                         <div class="grid-content">
                             <!--<router-link :to></router-link>-->
                             <img class="my_images" @click="productDialog = true" src="../../assets/ps4.jpg" alt="image"/>
-                            <p> PLAYSTATION 4 <br> PRO <br> KSH 40,000</p>
+                            <p> {{product.product_name}} <br> {{product.product_type}} <br> KSH {{product.product_price}}</p>
                         </div>
                     </el-col>
-                    <el-col :span="6">
-                        <div class="grid-content">
-                            <img class="my_images" @click="productDialog = true" src="../../assets/ps4_box.jpeg" alt="image"/>
-                            <p> PLAYSTATION 4 <br> PRO <br> KSH 20,000</p>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="grid-content">
-                            <img class="my_images" @click="productDialog = true" src="../../assets/ps4_army.jpeg" alt="image"/>
-                            <p> PLAYSTATION 4 <br> PRO <br> KSH 40,000</p>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="grid-content">
-                            <img class="my_images" @click="productDialog = true" src="../../assets/x_box.jpeg" alt="image"/>
-                            <p> PLAYSTATION 4 <br> PRO <br> KSH 30,000</p>
-                        </div>
-                    </el-col>
+                    </li>
+                    </ul>
+                    <!--<el-col :span="6">-->
+                    <!--<div class="grid-content">-->
+                    <!--<img class="my_images" @click="productDialog = true" src="../../assets/ps4_box.jpeg" alt="image"/>-->
+                    <!--<p> PLAYSTATION 4 <br> PRO <br> KSH 20,000</p>-->
+                    <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                    <!--<div class="grid-content">-->
+                    <!--<img class="my_images" @click="productDialog = true" src="../../assets/ps4_army.jpeg" alt="image"/>-->
+                    <!--<p> PLAYSTATION 4 <br> PRO <br> KSH 40,000</p>-->
+                    <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                    <!--<div class="grid-content">-->
+                    <!--<img class="my_images" @click="productDialog = true" src="../../assets/x_box.jpeg" alt="image"/>-->
+                    <!--<p> PLAYSTATION 4 <br> PRO <br> KSH 30,000</p>-->
+                    <!--</div>-->
+                    <!--</el-col>-->
                 </el-row>
 
             </el-card>
-        </el-container>
+        <el-row>
+                <el-dialog
+                        :visible.sync="productDialog"
+                        width="70%"
+                        center>
 
-        <!--product dialog-->
-        <el-dialog
-                :visible.sync="productDialog"
-                width="70%"
-                center>
-            <el-row>
-                <el-col :span="12">
-                    <img class="my_pop_images" src="../../assets/ps4.jpg" alt="image"/>
-                </el-col>
-                <el-col :span="12">
-                    <h1>PLAYSTATION</h1>
-                    <h3>PS4 PRO</h3>
-                    <h4>Description</h4>
-                    <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                    </p>
-                    <el-input placeholder="Please input" :disabled="true" v-model="input"></el-input>
-                    <br><br>
                     <el-row>
                         <el-col :span="12">
-                            <el-button type="danger">DELETE PRODUCT</el-button>
+                            <img class="my_pop_images" src="../../assets/ps4.jpg" alt="image"/>
                         </el-col>
                         <el-col :span="12">
-                            <el-button type="primary">EDIT PRODUCT</el-button>
+                            <h1>PLAYSTATION</h1>
+                            <h3>PS4 PRO</h3>
+                            <h4>Description</h4>
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                            </p>
+                            <el-input placeholder="Please input" :disabled="true" v-model="input"></el-input>
+                            <br><br>
+                            <el-row>
+                                <el-col :span="12">
+                                    <el-button type="danger">DELETE PRODUCT</el-button>
+                                </el-col>
+                                <el-col :span="12">
+                                    <el-button type="primary">EDIT PRODUCT</el-button>
+                                </el-col>
+                            </el-row>
                         </el-col>
                     </el-row>
-                </el-col>
-            </el-row>
-        </el-dialog>
+                </el-dialog>
+        </el-row>
+
     </div>
 </template>
 
 <script>
     import navbar from './Navbar'
+    import product_form from './product_form'
 
     export default {
         name: "admin_dash",
-        components:{navbar},
+        components:{navbar,product_form},
         data() {
             return {
                 input:'',
@@ -99,14 +104,25 @@
                     value: '6',
                     label: '6'
                 }],
-                value4: ''
+                value4: '',
+                products:[]
             }
+        },
+        computed:{
+            getProducts(){
+                return this.$store.getters.getProducts
+            }
+
         },
     }
 </script>
 
 <style scoped>
 
+    ul li{
+        list-style: none;
+        display: inline-flex;
+    }
     .my_images {
         width: 200px;
         height: 200px;
@@ -120,7 +136,7 @@
         border-radius: 4px;
         min-height: 36px;
         padding: 5px;
-        /*border: 1px solid black;*/
+        text-align: center;
     }
 
     .box-card-outer {

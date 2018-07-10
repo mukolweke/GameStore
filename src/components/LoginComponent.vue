@@ -1,26 +1,28 @@
 <template>
-    <el-card class="box-card">
-        <div slot="header" class="clearfix">
-            <span>Welcome Gamerz</span>
-        </div>
-        <div class="text item">
-            <el-form ref="form" :model="form" label-width="120px">
-                <el-form-item label="User Email">
-                    <el-input v-model="form.useremail"></el-input>
-                </el-form-item>
-                <el-form-item label="Password: ">
-                    <el-input type="password" v-model="form.password"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="success" class="loginbtn" @click="comparePassword" icon="el-icon-success">Login
-                    </el-button>
-                </el-form-item>
-            </el-form>
-        </div>
-        <p>Don't have an account
-            <router-link :to="{name:'signup_page'}">SignUp Here</router-link>
-        </p>
-    </el-card>
+    <div>
+        <el-card class="box-card">
+            <div slot="header" class="clearfix">
+                <span>Welcome Gamerz</span>
+            </div>
+            <div class="text item">
+                <el-form ref="form" :model="form" label-width="120px">
+                    <el-form-item label="User Email">
+                        <el-input v-model="form.useremail"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Password: ">
+                        <el-input type="password" v-model="form.password"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="success" class="loginbtn" @click="comparePassword" icon="el-icon-success">Login
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <p>Don't have an account
+                <router-link :to="{name:'signup_page'}">SignUp Here</router-link>
+            </p>
+        </el-card>
+    </div>
 </template>
 
 <script>
@@ -28,7 +30,7 @@
         name: "login_page",
         props: {
             data:{
-                users:[]
+                users:[],
             }
         },
         data() {
@@ -49,23 +51,46 @@
         },
 
         methods: {
-            // get stored password and reroute
+
             comparePassword(){
-                if(this.$store.getters.getPassword === this.form.password){
+                let vm=this;
 
-                    if(this.$store.getters.getName === "Admin"){ //THIS.PASSWORD
-                        // route to admin dashboard
-                        this.$router.push('admin-dash')
-                    }else{
-                        // route to user dashboard
-                        this.$router.push('user-dash')
+                this.users = this.$store.getters.getUsers;
+                this.users.forEach( function (user){
+                    if(user.password === vm.form.password)
+                    {
+                        if(user.username === 'admin'){
+                            vm.$router.push('admin-shop')
+                        }else{
+                            vm.$router.push('user-shop')
+                        }
                     }
+                })
 
-                }else{
 
-                    // attach a class to show error
-
-                }
+                // if(this.$store.getters.getPassword === this.form.password){
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //     // if(this.$store.getters.getName === this.form.p){ //THIS.PASSWORD
+                //     //     // route to admin dashboard
+                //     //     this.$router.push('admin-dash')
+                //     // }else{
+                //     //     // route to user dashboard
+                //     //     this.$router.push('user-dash')
+                //     // }
+                //
+                // }else{
+                //
+                //     // attach a class to show error
+                //
+                // }
 
             }
         }
